@@ -1,0 +1,180 @@
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        maven { url = 'https://dist.creeper.host/Sponge/maven' }
+        maven { url "https://plugins.gradle.org/m2/" }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'org.spongepowered.mixin'
+apply plugin: "com.matthewprenger.cursegradle"
+apply plugin: 'maven-publish'
+
+version = "1.0"
+def env = System.getenv()
+if (env.BUILD_NUMBER) {
+    version = version + "+" + "${env.BUILD_NUMBER}"
+}
+
+group = 'uk.co.hexeption'
+archivesBaseName = 'RSInfinityBooster'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+
+minecraft {
+    mappings channel: 'snapshot', version: '20201028-1.16.3'
+
+    runs {
+        client {
+            workingDirectory project.file('run/client')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            arg "-mixin.config=rsinfinitybooster.mixins.json"
+
+            mods {
+                rsinfinitybooster {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run/server')
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            arg "-mixin.config=rsinfinitybooster.mixins.json"
+
+            mods {
+                rsinfinitybooster {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run/data')
+            // property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+            args '--mod', 'rsinfinitybooster', '--all',
+                    '--existing', file('src/main/resources').toString(),
+                    '--existing', file('src/generated/resources').toString(),
+                    '--output', file('src/generated/resources/')
+
+            mods {
+                rsinfinitybooster {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
+}
+
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+repositories {
+    maven {
+        url "https://repo.refinedmods.com/"
+    }
+    maven {
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+}
+
+dependencies {
+    minecraft 'net.minecraftforge:forge:1.16.5-36.0.22'
+    compileOnly fg.deobf("com.refinedmods:refinedstorage:1.9.9+133")
+    runtimeOnly fg.deobf("com.refinedmods:refinedstorage:1.9.9+133")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.0.58")
+}
+
+
+jar {
+    manifest {
+        attributes([
+                "Specification-Title"     : "rsinfinitybooster",
+                //"Specification-Vendor": "rsinfinitybooster authors",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.version,
+                //"Implementation-Vendor": "rsinfinitybooster authors",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs"            : "rsinfinitybooster.mixins.json"
+        ])
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+mixin {
+    add sourceSets.main, "rsinfinitybooster.refmap.json"
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier 'deobf'
+}
+
+artifacts {
+    archives jar
+    archives sourcesJar
+    archives deobfJar
+}
+
+curseforge {
+    if (project.hasProperty('curse_api_key')) {
+        apiKey = project.getProperty('curse_api_key')
+    }
+    project {
+        id = '446870'
+        changelog = 'A changelog can be found at https://github.com/Hexeption/RSInfinityBooster'
+        releaseType = 'release'
+        addGameVersion '1.16'
+
+        mainArtifact(jar) {
+            displayName = "RSInfinityBooster v$version"
+        }
+        relations {
+            requiredDependency 'refined-storage'
+        }
+    }
+}
+
+// configure the maven publication
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+            artifact sourcesJar
+            artifact deobfJar
+        }
+    }
+
+    // select the repositories you want to publish to
+    repositories {
+        // uncomment to publish to the local maven
+        // mavenLocal()
+        if (project.hasProperty("mavenPass")) {
+            maven {
+                url = "https://repo.hexeption.dev/repository/hex-mods/"
+                credentials {
+                    username = "admin"
+                    password = project.getProperty("mavenPass")
+                }
+            }
+        }
+    }
+}
