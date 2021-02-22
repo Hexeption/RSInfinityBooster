@@ -30,7 +30,7 @@ archivesBaseName = 'RSInfinityBooster'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 minecraft {
-    mappings channel: 'snapshot', version: '20201028-1.16.3'
+    mappings channel: 'snapshot', version: '20200514-1.15.1'
 
     runs {
         client {
@@ -90,10 +90,10 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.0.22'
-    compileOnly fg.deobf("com.refinedmods:refinedstorage:1.9.9+133")
-    runtimeOnly fg.deobf("com.refinedmods:refinedstorage:1.9.9+133")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.0.58")
+    minecraft 'net.minecraftforge:forge:1.15.2-31.2.49'
+    compileOnly fg.deobf("com.refinedmods:refinedstorage:1.8.8+99")
+    runtimeOnly fg.deobf("com.refinedmods:refinedstorage:1.8.8+99")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.15.2:6.0.3.15")
 }
 
 
@@ -142,7 +142,7 @@ curseforge {
         id = '446870'
         changelog = 'A changelog can be found at https://github.com/Hexeption/RSInfinityBooster'
         releaseType = 'release'
-        addGameVersion '1.16'
+        addGameVersion '1.15'
 
         mainArtifact(jar) {
             displayName = "RSInfinityBooster v$version"

@@ -1,7 +1,8 @@
 package uk.co.hexeption.rsinfinitybooster.item;
 
-import com.refinedmods.refinedstorage.item.UpgradeItem;
+import com.refinedmods.refinedstorage.RS;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
@@ -10,9 +11,9 @@ import net.minecraft.item.ItemStack;
  * @author Hexeption admin@hexeption.co.uk
  * @since 14/02/2021 - 05:15 pm
  */
-public class InfinityCard extends UpgradeItem {
+public class InfinityCard extends Item {
 	public InfinityCard() {
-		super(Type.RANGE);
+		super((new Properties()).group(RS.MAIN_GROUP));
 	}
 
 	@Override

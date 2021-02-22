@@ -3,7 +3,6 @@ package uk.co.hexeption.rsinfinitybooster.datagen;
 import java.util.function.Consumer;
 
 import com.refinedmods.refinedstorage.RSItems;
-import com.refinedmods.refinedstorage.item.UpgradeItem;
 import uk.co.hexeption.rsinfinitybooster.RSInfinityBooster;
 import uk.co.hexeption.rsinfinitybooster.setup.ModItems;
 
@@ -37,10 +36,10 @@ public class RecipeGenerator extends RecipeProvider {
 		ShapedRecipeBuilder.shapedRecipe(ModItems.INFINITY_CARD.get())
 				.patternLine("ERE").patternLine("RSR").patternLine("NNN")
 				.key('E', Items.ENDER_EYE)
-				.key('R', RSItems.UPGRADE_ITEMS.get(UpgradeItem.Type.RANGE).get())
+				.key('R', RSItems.RANGE_UPGRADE)
 				.key('S', Items.NETHER_STAR)
-				.key('N', Items.NETHERITE_INGOT)
-				.addCriterion("has_item", hasItem(Items.NETHERITE_INGOT))
+				.key('N', Items.DIAMOND)
+				.addCriterion("has_item", hasItem(Items.DIAMOND))
 				.build(consumer, new ResourceLocation(RSInfinityBooster.ID, "infinity_card"));
 	}
 }
