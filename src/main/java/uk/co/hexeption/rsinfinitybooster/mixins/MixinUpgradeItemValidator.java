@@ -21,6 +21,8 @@ public class MixinUpgradeItemValidator {
 	@Inject(method = "test", at = @At("HEAD"), cancellable = true)
 	private void test(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
 
-		cir.setReturnValue(stack.getItem() instanceof InfinityCard);
+		if (stack.getItem() instanceof InfinityCard) {
+			cir.setReturnValue(true);
+		}
 	}
 }
