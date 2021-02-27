@@ -1,4 +1,3 @@
-IntelliJ IDEA
 pipeline {
     agent {
         docker { image "openjdk:8-jdk" }
