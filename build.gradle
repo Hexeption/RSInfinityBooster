@@ -10,6 +10,7 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
+        classpath group: 'gradle.plugin.com.modrinth.minotaur', name: 'Minotaur', version: '1.1.0'
     }
 }
 
@@ -177,4 +178,19 @@ publishing {
             }
         }
     }
+}
+
+import com.modrinth.minotaur.TaskModrinthUpload
+
+task publishModrinth (type: TaskModrinthUpload){
+    if (project.hasProperty('modrinth_api_key')) {
+        token = project.getProperty('modrinth_api_key')
+    }
+    projectId = 'Sjzdj2cy'
+    versionName = "RSInfinityBooster v$version"
+    changelog = 'A changelog can be found at https://github.com/Hexeption/RSInfinityBooster'
+    versionNumber = "$version"
+    uploadFile = jar
+    addGameVersion("1.15.2")
+    addLoader('forge')
 }
