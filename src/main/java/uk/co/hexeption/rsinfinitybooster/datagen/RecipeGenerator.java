@@ -42,5 +42,12 @@ public class RecipeGenerator extends RecipeProvider {
 				.key('N', Items.NETHERITE_INGOT)
 				.addCriterion("has_item", hasItem(Items.NETHERITE_INGOT))
 				.build(consumer, new ResourceLocation(RSInfinityBooster.ID, "infinity_card"));
+		ShapedRecipeBuilder.shapedRecipe(ModItems.DIMENSION_CARD.get())
+				.patternLine("RNR").patternLine("NEN").patternLine("RNR")
+				.key('R', ModItems.INFINITY_CARD.get())
+				.key('E', Items.ENDER_EYE)
+				.key('N', Items.NETHER_STAR)
+				.addCriterion("has_item", hasItem(ModItems.INFINITY_CARD.get()))
+				.build(consumer, new ResourceLocation(RSInfinityBooster.ID, "dimension_card"));
 	}
 }
