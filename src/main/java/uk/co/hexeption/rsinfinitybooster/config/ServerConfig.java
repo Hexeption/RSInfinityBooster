@@ -40,7 +40,7 @@ public class ServerConfig {
 		public InfinityCard() {
 			builder.push("infinityCard");
 
-			energyUsage = builder.comment("The energy need to run the Infinity Card").defineInRange("energyUsage", 8000, 0, Integer.MAX_VALUE);
+			energyUsage = builder.comment("The energy need to run the Infinity Card").defineInRange("energyUsage", 4000, 0, Integer.MAX_VALUE);
 
 			builder.pop();
 		}
@@ -56,7 +56,7 @@ public class ServerConfig {
 		public DimensionCard() {
 			builder.push("dimensionCard");
 
-			energyUsage = builder.comment("The energy need to run the Dimension Card").defineInRange("energyUsage", 16000, 0, Integer.MAX_VALUE);
+			energyUsage = builder.comment("The energy need to run the Dimension Card").defineInRange("energyUsage", 8000, 0, Integer.MAX_VALUE);
 
 			builder.pop();
 		}
