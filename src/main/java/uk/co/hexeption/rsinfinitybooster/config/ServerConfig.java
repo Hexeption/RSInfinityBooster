@@ -13,15 +13,21 @@ public class ServerConfig {
 	private ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
 	private ForgeConfigSpec spec;
 	private InfinityCard infinityCard;
+	private DimensionCard dimensionCard;
 
 	public ServerConfig() {
 		infinityCard = new InfinityCard();
+		dimensionCard = new DimensionCard();
 
 		spec = builder.build();
 	}
 
 	public InfinityCard getInfinityCard() {
 		return infinityCard;
+	}
+
+	public DimensionCard getDimensionCard() {
+		return dimensionCard;
 	}
 
 	public ForgeConfigSpec getSpec() {
@@ -34,7 +40,23 @@ public class ServerConfig {
 		public InfinityCard() {
 			builder.push("infinityCard");
 
-			energyUsage = builder.comment("The energy need to run the InfinityCard").defineInRange("energyUsage", 16000, 0, Integer.MAX_VALUE);
+			energyUsage = builder.comment("The energy need to run the Infinity Card").defineInRange("energyUsage", 8000, 0, Integer.MAX_VALUE);
+
+			builder.pop();
+		}
+
+		public int getEnergyUsage() {
+			return energyUsage.get();
+		}
+	}
+
+	public class DimensionCard {
+		private final ForgeConfigSpec.IntValue energyUsage;
+
+		public DimensionCard() {
+			builder.push("dimensionCard");
+
+			energyUsage = builder.comment("The energy need to run the Dimension Card").defineInRange("energyUsage", 16000, 0, Integer.MAX_VALUE);
 
 			builder.pop();
 		}
