@@ -10,9 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import uk.co.hexeption.rsinfinitybooster.RSInfinityBooster;
-import uk.co.hexeption.rsinfinitybooster.item.InfinityCard;
-
-import net.minecraft.item.ItemStack;
+import uk.co.hexeption.rsinfinitybooster.utils.CardUtil;
 
 /**
  * MixinsWirelessTransmitterNetworkNode
@@ -30,7 +28,7 @@ public class MixinsWirelessTransmitterNetworkNode {
 	@Inject(method = "getRange", at = @At("HEAD"), cancellable = true)
 	private void getRange(CallbackInfoReturnable<Integer> cir) {
 
-		if (isInfinityCard()) {
+		if (CardUtil.isInfinityCard(upgrades)) {
 			cir.setReturnValue(Integer.MAX_VALUE);
 		}
 	}
@@ -38,19 +36,23 @@ public class MixinsWirelessTransmitterNetworkNode {
 	@Inject(method = "getEnergyUsage", at = @At("HEAD"), cancellable = true)
 	private void getEnergyUsage(CallbackInfoReturnable<Integer> cir) {
 
-		if (isInfinityCard()) {
-			cir.setReturnValue(RS.SERVER_CONFIG.getWirelessTransmitter().getUsage() + RSInfinityBooster.SERVER_CONFIG.getInfinityCard().getEnergyUsage());
+		if (CardUtil.isBothCards(upgrades)) {
+			cir.setReturnValue(RS.SERVER_CONFIG.getWirelessTransmitter().getUsage() + RSInfinityBooster.SERVER_CONFIG.getInfinityCard().getEnergyUsage() + RSInfinityBooster.SERVER_CONFIG.getDimensionCard().getEnergyUsage());
+			return;
 		}
+
+		if (CardUtil.isInfinityCard(upgrades)) {
+			cir.setReturnValue(RS.SERVER_CONFIG.getWirelessTransmitter().getUsage() + RSInfinityBooster.SERVER_CONFIG.getInfinityCard().getEnergyUsage());
+			return;
+		}
+
+		if (CardUtil.isDimensionCard(upgrades)) {
+			cir.setReturnValue(RS.SERVER_CONFIG.getWirelessTransmitter().getUsage() + RSInfinityBooster.SERVER_CONFIG.getDimensionCard().getEnergyUsage());
+			return;
+		}
+
+
 	}
 
-	private boolean isInfinityCard() {
-		for (int i = 0; i < this.upgrades.getSlots(); ++i) {
-			ItemStack slot = this.upgrades.getStackInSlot(i);
-			if (slot.getItem() instanceof InfinityCard) {
-				return true;
-			}
-		}
-		return false;
-	}
 }
 

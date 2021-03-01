@@ -2,6 +2,6 @@
 
 ![](https://img.hexeption.co.uk/vKVY)
 
-Adds Infinite Range Card to Refined Storage
+Adds Infinite Range Card and Dimension Card to Refined Storage
 
 
