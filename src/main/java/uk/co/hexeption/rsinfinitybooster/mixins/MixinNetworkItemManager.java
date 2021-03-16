@@ -43,6 +43,9 @@ public abstract class MixinNetworkItemManager implements INetworkItemManager {
 		network.getNodeGraph().all().forEach(iNetworkNode -> {
 			if (iNetworkNode instanceof WirelessTransmitterNetworkNode) {
 				WirelessTransmitterNetworkNode transsmitter = (WirelessTransmitterNetworkNode) iNetworkNode;
+				if(!transsmitter.isActive()){
+					return;
+				}
 				if (CardUtil.isDimensionCard(transsmitter.getUpgrades())) {
 					INetworkItem item = ((INetworkItemProvider) stack.getItem()).provide(this, player, stack, slotId);
 					if (item.onOpen(this.network)) {
