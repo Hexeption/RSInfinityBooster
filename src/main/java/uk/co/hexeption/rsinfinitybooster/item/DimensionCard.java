@@ -13,11 +13,11 @@ import net.minecraft.item.ItemStack;
  */
 public class DimensionCard extends Item {
 	public DimensionCard() {
-		super((new Properties()).group(RS.MAIN_GROUP));
+		super((new Properties()).tab(RS.MAIN_GROUP));
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack stack) {
+	public boolean isFoil(ItemStack stack) {
 		return true;
 	}
 }

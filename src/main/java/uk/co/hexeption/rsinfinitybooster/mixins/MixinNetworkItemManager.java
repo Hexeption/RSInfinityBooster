@@ -9,6 +9,7 @@ import com.refinedmods.refinedstorage.api.network.item.INetworkItemProvider;
 import com.refinedmods.refinedstorage.api.network.node.INetworkNode;
 import com.refinedmods.refinedstorage.apiimpl.network.item.NetworkItemManager;
 import com.refinedmods.refinedstorage.apiimpl.network.node.WirelessTransmitterNetworkNode;
+import com.refinedmods.refinedstorage.inventory.player.PlayerSlot;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -38,7 +39,7 @@ public abstract class MixinNetworkItemManager implements INetworkItemManager {
 	private Map<PlayerEntity, INetworkItem> items;
 
 	@Inject(method = "open", at = @At("HEAD"), cancellable = true)
-	private void onOpen(PlayerEntity player, ItemStack stack, int slotId, CallbackInfo ci) {
+	private void onOpen(PlayerEntity playerEntity, ItemStack itemStack, PlayerSlot playerSlot, CallbackInfo ci) {
 		network.getNodeGraph().all().forEach(iNetworkNode -> {
 			INetworkNode node = iNetworkNode.getNode();
 			if (node instanceof WirelessTransmitterNetworkNode) {
@@ -47,9 +48,9 @@ public abstract class MixinNetworkItemManager implements INetworkItemManager {
 					return;
 				}
 				if (CardUtil.isDimensionCard(transsmitter.getUpgrades())) {
-					INetworkItem item = ((INetworkItemProvider) stack.getItem()).provide(this, player, stack, slotId);
+					INetworkItem item = ((INetworkItemProvider) itemStack.getItem()).provide(this, playerEntity, itemStack, playerSlot);
 					if (item.onOpen(this.network)) {
-						this.items.put(player, item);
+						this.items.put(playerEntity, item);
 					}
 					ci.cancel();
 				}

@@ -16,7 +16,7 @@ public class InfinityCard extends UpgradeItem {
 	}
 
 	@Override
-	public boolean hasEffect(ItemStack stack) {
+	public boolean isFoil(ItemStack stack) {
 		return true;
 	}
 }

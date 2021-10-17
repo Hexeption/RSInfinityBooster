@@ -33,21 +33,21 @@ public class RecipeGenerator extends RecipeProvider {
 	}
 
 	@Override
-	protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
-		ShapedRecipeBuilder.shapedRecipe(ModItems.INFINITY_CARD.get())
-				.patternLine("ERE").patternLine("RSR").patternLine("NNN")
-				.key('E', Items.ENDER_EYE)
-				.key('R', RSItems.UPGRADE_ITEMS.get(UpgradeItem.Type.RANGE).get())
-				.key('S', Items.NETHER_STAR)
-				.key('N', Items.NETHERITE_INGOT)
-				.addCriterion("has_item", hasItem(Items.NETHERITE_INGOT))
-				.build(consumer, new ResourceLocation(RSInfinityBooster.ID, "infinity_card"));
-		ShapedRecipeBuilder.shapedRecipe(ModItems.DIMENSION_CARD.get())
-				.patternLine("RNR").patternLine("NEN").patternLine("RNR")
-				.key('R', ModItems.INFINITY_CARD.get())
-				.key('E', Items.ENDER_EYE)
-				.key('N', Items.NETHER_STAR)
-				.addCriterion("has_item", hasItem(ModItems.INFINITY_CARD.get()))
-				.build(consumer, new ResourceLocation(RSInfinityBooster.ID, "dimension_card"));
+	protected void buildShapelessRecipes(Consumer<IFinishedRecipe> consumer) {
+		ShapedRecipeBuilder.shaped(ModItems.INFINITY_CARD.get())
+				.pattern("ERE").pattern("RSR").pattern("NNN")
+				.define('E', Items.ENDER_EYE)
+				.define('R', RSItems.UPGRADE_ITEMS.get(UpgradeItem.Type.RANGE).get())
+				.define('S', Items.NETHER_STAR)
+				.define('N', Items.NETHERITE_INGOT)
+				.unlockedBy("has_item", has(Items.NETHERITE_INGOT))
+				.save(consumer, new ResourceLocation(RSInfinityBooster.ID, "infinity_card"));
+		ShapedRecipeBuilder.shaped(ModItems.DIMENSION_CARD.get())
+				.pattern("RNR").pattern("NEN").pattern("RNR")
+				.define('R', ModItems.INFINITY_CARD.get())
+				.define('E', Items.ENDER_EYE)
+				.define('N', Items.NETHER_STAR)
+				.unlockedBy("has_item", has(ModItems.INFINITY_CARD.get()))
+				.save(consumer, new ResourceLocation(RSInfinityBooster.ID, "dimension_card"));
 	}
 }
