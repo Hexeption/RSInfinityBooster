@@ -135,8 +135,8 @@ artifacts {
 }
 
 curseforge {
-    if (project.hasProperty('CURSE_API_KEY')) {
-        apiKey = project.getProperty('CURSE_API_KEY')
+    if (env.CURSE_API_KEY) {
+        apiKey = env.CURSE_API_KEY
     }
     project {
         id = '446870'
@@ -167,12 +167,12 @@ publishing {
     repositories {
         // uncomment to publish to the local maven
         // mavenLocal()
-        if (project.hasProperty("REPO_PASSWORD")) {
+        if (env.REPO_PASSWORD) {
             maven {
                 url = "https://repo.hexeption.dev/repository/hex-mods/"
                 credentials {
                     username = "admin"
-                    password = project.getProperty("REPO_PASSWORD")
+                    password = env.REPO_PASSWORD
                 }
             }
         }
@@ -182,8 +182,8 @@ publishing {
 import com.modrinth.minotaur.TaskModrinthUpload
 
 task publishModrinth (type: TaskModrinthUpload){
-    if (project.hasProperty('MODRINTH_API_KEY')) {
-        token = project.getProperty('MODRINTH_API_KEY')
+    if (env.MODRINTH_API_KEY) {
+        token = env.MODRINTH_API_KEY
     }
     projectId = 'Sjzdj2cy'
     versionName = "RSInfinityBooster v$version"
