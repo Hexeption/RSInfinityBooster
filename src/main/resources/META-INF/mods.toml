@@ -22,7 +22,7 @@ ordering = "NONE"
 side = "BOTH"
 [[dependencies.rsinfinitybooster]]
 modId = "refinedstorage"
-versionRange = "[1.9.6,)"
+versionRange = "[1.9.16,)"
 mandatory = true
 ordering = "AFTER"
 side = "BOTH"
