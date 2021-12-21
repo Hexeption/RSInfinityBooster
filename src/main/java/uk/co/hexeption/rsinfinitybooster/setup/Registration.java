@@ -6,7 +6,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import uk.co.hexeption.rsinfinitybooster.RSInfinityBooster;
 
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 
 /**
  * Registration

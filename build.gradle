@@ -18,7 +18,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: "com.matthewprenger.cursegradle"
 apply plugin: 'maven-publish'
 
-version = "1.16.5-1.1"
+version = "1.18.1-2.0"
 def env = System.getenv()
 if (env.GITHUB_RUN_NUMBER) {
     version = version + "+" + "${env.GITHUB_RUN_NUMBER}"
@@ -27,10 +27,11 @@ if (env.GITHUB_RUN_NUMBER) {
 group = 'uk.co.hexeption'
 archivesBaseName = 'RSInfinityBooster'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 minecraft {
-    mappings channel: 'official', version: '1.16.5'
+    mappings channel: 'official', version: '1.18.1'
 
     runs {
         client {
@@ -87,13 +88,19 @@ repositories {
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
     }
+    maven {
+        url "https://www.cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.2.8'
-    compileOnly fg.deobf("com.refinedmods:refinedstorage:1.9.16+199")
-    runtimeOnly fg.deobf("com.refinedmods:refinedstorage:1.9.16+199")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.0.58")
+    minecraft 'net.minecraftforge:forge:1.18.1-39.0.7'
+    compileOnly fg.deobf("curse.maven:rs-243076:3569563")
+    runtimeOnly fg.deobf("curse.maven:rs-243076:3569563")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18.1:9.1.1.48")
 }
 
 
@@ -142,7 +149,7 @@ curseforge {
         id = '446870'
         changelog = 'A changelog can be found at https://github.com/Hexeption/RSInfinityBooster'
         releaseType = 'release'
-        addGameVersion '1.16'
+        addGameVersion '1.18'
 
         mainArtifact(jar) {
             displayName = "RSInfinityBooster v$version"
@@ -190,6 +197,6 @@ task publishModrinth (type: TaskModrinthUpload){
     changelog = 'A changelog can be found at https://github.com/Hexeption/RSInfinityBooster'
     versionNumber = "$version"
     uploadFile = jar
-    addGameVersion("1.16.5")
+    addGameVersion("1.18.1")
     addLoader('forge')
 }

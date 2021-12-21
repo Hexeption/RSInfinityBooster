@@ -1,13 +1,12 @@
 package uk.co.hexeption.rsinfinitybooster.mixins;
 
 import com.refinedmods.refinedstorage.inventory.item.validator.UpgradeItemValidator;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import uk.co.hexeption.rsinfinitybooster.item.DimensionCard;
-
-import net.minecraft.item.ItemStack;
 
 /**
  * MixinUpgradeItemValidator

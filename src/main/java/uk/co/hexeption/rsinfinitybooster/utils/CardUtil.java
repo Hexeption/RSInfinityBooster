@@ -4,7 +4,7 @@ import com.refinedmods.refinedstorage.inventory.item.BaseItemHandler;
 import uk.co.hexeption.rsinfinitybooster.item.DimensionCard;
 import uk.co.hexeption.rsinfinitybooster.item.InfinityCard;
 
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * CardUtil

@@ -1,10 +1,9 @@
 package uk.co.hexeption.rsinfinitybooster.setup;
 
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.registries.RegistryObject;
 import uk.co.hexeption.rsinfinitybooster.item.DimensionCard;
 import uk.co.hexeption.rsinfinitybooster.item.InfinityCard;
-
-import net.minecraft.item.Item;
 
 /**
  * ModItems
