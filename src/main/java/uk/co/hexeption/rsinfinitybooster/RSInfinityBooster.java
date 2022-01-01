@@ -18,6 +18,8 @@ public class RSInfinityBooster {
 	public static final String ID = "rsinfinitybooster";
 	public static final ServerConfig SERVER_CONFIG = new ServerConfig();
 
+
+
 	public RSInfinityBooster() {
 
 		ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG.getSpec());

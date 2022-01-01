@@ -2,9 +2,12 @@ package uk.co.hexeption.rsinfinitybooster.item;
 
 import com.refinedmods.refinedstorage.item.UpgradeItem;
 
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 
 import com.refinedmods.refinedstorage.item.UpgradeItem.Type;
+
+import java.util.Collection;
 
 /**
  * InfinityCard
