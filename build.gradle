@@ -97,9 +97,9 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.7'
-    compileOnly fg.deobf("curse.maven:rs-243076:3569563")
-    runtimeOnly fg.deobf("curse.maven:rs-243076:3569563")
+    minecraft 'net.minecraftforge:forge:1.18.1-39.0.8'
+    compileOnly fg.deobf("curse.maven:rs-243076:3583676")
+    runtimeOnly fg.deobf("curse.maven:rs-243076:3583676")
     runtimeOnly fg.deobf("mezz.jei:jei-1.18.1:9.1.1.48")
 }
 
