@@ -18,7 +18,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: "com.matthewprenger.cursegradle"
 apply plugin: 'maven-publish'
 
-version = "1.18.1-2.0"
+version = "1.18.2-2.1"
 def env = System.getenv()
 if (env.GITHUB_RUN_NUMBER) {
     version = version + "+" + "${env.GITHUB_RUN_NUMBER}"
@@ -31,7 +31,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 minecraft {
-    mappings channel: 'official', version: '1.18.1'
+    mappings channel: 'official', version: '1.18.2'
 
     runs {
         client {
@@ -82,7 +82,17 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven {
-        url "https://repo.refinedmods.com/"
+        url = uri("https://maven.pkg.github.com/refinedmods/refinedstorage")
+        /* As of december 2021, GitHub packages requires authentication.
+           The password below is a personal access token that has read access to the Refined Mods repos.
+           It can be reused in other projects.
+           See: https://github.community/t/download-from-github-package-registry-without-authentication/14407/38 and
+                https://github.community/t/download-from-github-package-registry-without-authentication/14407/44
+         */
+        credentials {
+            username = "anything"
+            password = "\u0067hp_oGjcDFCn8jeTzIj4Ke9pLoEVtpnZMP4VQgaX"
+        }
     }
     maven {
         name = "Progwml6 maven"
@@ -97,10 +107,12 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.8'
-    compileOnly fg.deobf("curse.maven:rs-243076:3583676")
-    runtimeOnly fg.deobf("curse.maven:rs-243076:3583676")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.18.1:9.1.1.48")
+    minecraft 'net.minecraftforge:forge:1.18.2-40.0.44'
+    compileOnly "com.refinedmods:refinedstorage:1.10.2"
+    runtimeOnly fg.deobf("com.refinedmods:refinedstorage:1.10.2") {
+        transitive false
+    }
+    runtimeOnly fg.deobf("mezz.jei:jei-1.18.2:9.5.5.174")
 }
 
 
@@ -150,6 +162,7 @@ curseforge {
         changelog = 'A changelog can be found at https://github.com/Hexeption/RSInfinityBooster'
         releaseType = 'release'
         addGameVersion '1.18'
+        addGameVersion '1.18.2'
 
         mainArtifact(jar) {
             displayName = "RSInfinityBooster v$version"
@@ -176,7 +189,7 @@ publishing {
         // mavenLocal()
         if (env.REPO_PASSWORD) {
             maven {
-                url = "https://repo.hexeption.dev/repository/hex-mods/"
+                url = "https://nexus.hexeption.dev/repository/hex-mods/"
                 credentials {
                     username = "admin"
                     password = env.REPO_PASSWORD
@@ -197,6 +210,6 @@ task publishModrinth (type: TaskModrinthUpload){
     changelog = 'A changelog can be found at https://github.com/Hexeption/RSInfinityBooster'
     versionNumber = "$version"
     uploadFile = jar
-    addGameVersion("1.18.1")
+    addGameVersion("1.18.2")
     addLoader('forge')
 }
