@@ -108,6 +108,7 @@ repositories {
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.18.2-40.0.44'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly "com.refinedmods:refinedstorage:1.10.2"
     runtimeOnly fg.deobf("com.refinedmods:refinedstorage:1.10.2") {
         transitive false
