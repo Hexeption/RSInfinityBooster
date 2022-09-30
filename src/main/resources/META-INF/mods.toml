@@ -1,5 +1,5 @@
 modLoader = "javafml" #mandatory
-loaderVersion = "[40,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+loaderVersion = "[43,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 license = "GNU GENERAL PUBLIC LICENSE"
 [[mods]] #mandatory
 modId = "rsinfinitybooster" #mandatory
@@ -11,18 +11,18 @@ description = '''
 [[dependencies.rsinfinitybooster]] #optional
 modId = "forge" #mandatory
 mandatory = true #mandatory
-versionRange = "[40,)" #mandatory
+versionRange = "[43,)" #mandatory
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.rsinfinitybooster]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18.2,)"
+versionRange = "[1.19.2,)"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.rsinfinitybooster]]
 modId = "refinedstorage"
-versionRange = "[1.10.2,)"
+versionRange = "[1.11.0,)"
 mandatory = true
 ordering = "BEFORE"
 side = "BOTH"

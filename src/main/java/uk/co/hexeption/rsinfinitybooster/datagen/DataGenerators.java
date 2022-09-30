@@ -1,9 +1,9 @@
 package uk.co.hexeption.rsinfinitybooster.datagen;
 
 import net.minecraft.data.DataGenerator;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import uk.co.hexeption.rsinfinitybooster.RSInfinityBooster;
 
 /**
@@ -15,13 +15,13 @@ import uk.co.hexeption.rsinfinitybooster.RSInfinityBooster;
 @Mod.EventBusSubscriber(modid = RSInfinityBooster.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class DataGenerators {
 
-	private DataGenerators() {
-	}
+    private DataGenerators() {
+    }
 
-	@SubscribeEvent
-	public static void onGatherData(GatherDataEvent event) {
-		DataGenerator generator = event.getGenerator();
+    @SubscribeEvent
+    public static void onGatherData(GatherDataEvent event) {
+        DataGenerator generator = event.getGenerator();
 
-		generator.addProvider(new RecipeGenerator(generator));
-	}
+        generator.addProvider(true, new RecipeGenerator(generator));
+    }
 }
