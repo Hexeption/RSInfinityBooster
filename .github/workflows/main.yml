@@ -4,7 +4,7 @@ jobs:
   build:
     runs-on: ubuntu-20.04
     container:
-      image: openjdk:17-jdk
+      image: amazoncorretto:17
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: gradle/wrapper-validation-action@v1.0.3
