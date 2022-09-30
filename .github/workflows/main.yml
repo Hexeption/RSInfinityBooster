@@ -2,9 +2,9 @@ name: Dev-Builds
 on: [push, pull_request]
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     container:
-      image: amazoncorretto:17
+      image: azul/zulu-openjdk-alpine:17-latest
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: gradle/wrapper-validation-action@v1.0.3
