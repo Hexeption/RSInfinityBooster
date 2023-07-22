@@ -12,7 +12,7 @@ import net.minecraft.world.item.ItemStack;
  */
 public class DimensionCard extends Item {
 	public DimensionCard() {
-		super((new Properties()).tab(RS.CREATIVE_MODE_TAB));
+		super(new Item.Properties().durability(0));
 	}
 
 	@Override
