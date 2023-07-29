@@ -31,6 +31,10 @@ public class MixinsWirelessTransmitterNetworkNode {
 		if (CardUtil.isInfinityCard(upgrades)) {
 			cir.setReturnValue(Integer.MAX_VALUE);
 		}
+
+		if (CardUtil.isDimensionCard(upgrades)) {
+			cir.setReturnValue(Integer.MAX_VALUE);
+		}
 	}
 
 	@Inject(method = "getEnergyUsage", at = @At("HEAD"), cancellable = true)

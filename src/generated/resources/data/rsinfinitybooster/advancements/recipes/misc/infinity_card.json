@@ -6,7 +6,7 @@
         "items": [
           {
             "items": [
-              "rsinfinitybooster:infinity_card"
+              "minecraft:netherite_ingot"
             ]
           }
         ]
@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "rsinfinitybooster:dimension_card"
+        "recipe": "rsinfinitybooster:infinity_card"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,8 @@
   ],
   "rewards": {
     "recipes": [
-      "rsinfinitybooster:dimension_card"
+      "rsinfinitybooster:infinity_card"
     ]
-  }
+  },
+  "sends_telemetry_event": false
 }
