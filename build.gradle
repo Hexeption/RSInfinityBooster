@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '6.+', changing: true
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:1.4.0"
         classpath group: 'gradle.plugin.com.modrinth.minotaur', name: 'Minotaur', version: '1.1.0'
@@ -18,7 +18,7 @@ apply plugin: 'org.spongepowered.mixin'
 apply plugin: "com.matthewprenger.cursegradle"
 apply plugin: 'maven-publish'
 
-version = "1.19.2-3.0"
+version = "1.20.1-1.0"
 def env = System.getenv()
 if (env.GITHUB_RUN_NUMBER) {
     version = version + "+" + "${env.GITHUB_RUN_NUMBER}"
@@ -31,7 +31,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 
 minecraft {
-    mappings channel: 'official', version: '1.19.2'
+    mappings channel: 'official', version: '1.20.1'
 
     runs {
         client {
@@ -107,13 +107,13 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.19.2-43.1.32'
+    minecraft 'net.minecraftforge:forge:1.20.1-47.0.3'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    compileOnly "com.refinedmods:refinedstorage:1.11.0"
-    runtimeOnly fg.deobf("com.refinedmods:refinedstorage:1.11.0") {
+    compileOnly "com.refinedmods:refinedstorage:1.12.3"
+    runtimeOnly fg.deobf("com.refinedmods:refinedstorage:1.12.3") {
         transitive false
     }
-    runtimeOnly fg.deobf("mezz.jei:jei-1.19.2-forge:11.3.0.262")
+    runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:15.0.0.12")
 }
 
 
@@ -139,13 +139,13 @@ mixin {
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+    archiveClassifier = 'sources'
     from sourceSets.main.allSource
 }
 
 task deobfJar(type: Jar) {
     from sourceSets.main.output
-    classifier 'deobf'
+    archiveClassifier = 'deobf'
 }
 
 artifacts {
@@ -162,8 +162,7 @@ curseforge {
         id = '446870'
         changelog = 'A changelog can be found at https://github.com/Hexeption/RSInfinityBooster'
         releaseType = 'release'
-        addGameVersion '1.19'
-        addGameVersion '1.19.2'
+        addGameVersion '1.20.1'
 
         mainArtifact(jar) {
             displayName = "RSInfinityBooster v$version"
