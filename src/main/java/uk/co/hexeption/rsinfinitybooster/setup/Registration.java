@@ -1,12 +1,8 @@
 package uk.co.hexeption.rsinfinitybooster.setup;
 
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredRegister;
 import uk.co.hexeption.rsinfinitybooster.RSInfinityBooster;
-
-import net.minecraft.world.item.Item;
 
 /**
  * Registration
@@ -16,11 +12,10 @@ import net.minecraft.world.item.Item;
  */
 public class Registration {
 
-	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, RSInfinityBooster.ID);
+	public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(RSInfinityBooster.MODID);
 
-	public static void register() {
-		IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-		ITEMS.register(modEventBus);
+	public static void register(IEventBus eventBus) {
+		ITEMS.register(eventBus);
 
 		ModItems.register();
 	}
