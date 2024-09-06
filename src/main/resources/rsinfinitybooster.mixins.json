@@ -6,6 +6,7 @@
   "mixins": [
     "MixinNetworkItemManager",
     "MixinsWirelessTransmitterNetworkNode",
+    "MixinAdvancedWirelessTransmitterNode",
     "MixinUpgradeItemValidator"
   ],
   "minVersion": "0.8"
