@@ -118,10 +118,13 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.20.1-47.0.3'
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    compileOnly "com.refinedmods:refinedstorage:1.12.3"
-    runtimeOnly fg.deobf("com.refinedmods:refinedstorage:1.12.3") {
+    compileOnly "com.refinedmods:refinedstorage:1.12.4"
+    runtimeOnly fg.deobf("com.refinedmods:refinedstorage:1.12.4") {
         transitive false
     }
+    compileOnly fg.deobf("curse.maven:rebornstorage-256662:4861934")
+    runtimeOnly fg.deobf("curse.maven:rebornstorage-256662:4861934")
+
     runtimeOnly fg.deobf("mezz.jei:jei-1.20.1-forge:15.0.0.12")
 }
 
