@@ -8,10 +8,13 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.LoadingModList;
+import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
 import net.minecraftforge.registries.RegisterEvent;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
@@ -65,5 +68,13 @@ public class RSInfinityBooster {
                 .build();
         Registry.register(registry, new ResourceLocation(ID, "aeinfinitybooster"), tab);
 
+    }
+
+    // From AE https://github.com/AppliedEnergistics/Applied-Energistics-2/blob/3552335d5d06dccd4f717510eda8bc7a39937a9e/src/main/java/appeng/mixins/ConfigPlugin.java#L52
+    public static boolean isModLoaded(String modId) {
+        if (ModList.get() == null) {
+            return LoadingModList.get().getMods().stream().map(ModInfo::getModId).anyMatch(modId::equals);
+        }
+        return ModList.get().isLoaded(modId);
     }
 }

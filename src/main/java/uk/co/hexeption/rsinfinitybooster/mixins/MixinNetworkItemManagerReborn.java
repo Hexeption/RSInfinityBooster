@@ -10,6 +10,7 @@ import com.refinedmods.refinedstorage.apiimpl.network.node.WirelessTransmitterNe
 import com.refinedmods.refinedstorage.inventory.item.BaseItemHandler;
 import com.refinedmods.refinedstorage.inventory.player.PlayerSlot;
 import java.util.Map;
+import net.gigabit101.rebornstorage.nodes.AdvancedWirelessTransmitterNode;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Final;
@@ -19,6 +20,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import uk.co.hexeption.rsinfinitybooster.RSInfinityBooster;
 import uk.co.hexeption.rsinfinitybooster.utils.CardUtil;
 
 /**
@@ -28,7 +30,7 @@ import uk.co.hexeption.rsinfinitybooster.utils.CardUtil;
  * @since 01/03/2021 - 04:34 pm
  */
 @Mixin(value = NetworkItemManager.class, remap = false)
-public abstract class MixinNetworkItemManager implements INetworkItemManager {
+public abstract class MixinNetworkItemManagerReborn implements INetworkItemManager {
 
     @Shadow
     @Final
@@ -60,6 +62,12 @@ public abstract class MixinNetworkItemManager implements INetworkItemManager {
             INetworkNode node = iNetworkNode.getNode();
             if (node instanceof WirelessTransmitterNetworkNode transmitter) {
                 rSInfinityBooster$handleTransmitterOpen(player, itemStack, playerSlot, node, transmitter.getUpgrades(), ci);
+            }
+
+            if(RSInfinityBooster.isModLoaded("rebornstorage")) {
+                if (node instanceof AdvancedWirelessTransmitterNode transmitter) {
+                    rSInfinityBooster$handleTransmitterOpen(player, itemStack, playerSlot, node, transmitter.getUpgrades(), ci);
+                }
             }
         });
     }

@@ -9,5 +9,6 @@
     "MixinAdvancedWirelessTransmitterNode",
     "MixinUpgradeItemValidator"
   ],
+  "plugin": "uk.co.hexeption.rsinfinitybooster.mixins.ConditionalMixinPlugin",
   "minVersion": "0.8"
 }
