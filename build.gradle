@@ -1,16 +1,19 @@
 plugins {
     id 'java-library'
-    id 'eclipse'
-    id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.142'
+    id 'net.neoforged.moddev' version '2.0.80'
+    id 'idea'
     id 'net.darkhax.curseforgegradle' version '1.1.15'
     id "com.modrinth.minotaur" version "2.+"
 }
 
+tasks.named('wrapper', Wrapper).configure {
+    distributionType = Wrapper.DistributionType.BIN
+}
+
 def env = System.getenv()
 if (env.GITHUB_RUN_NUMBER) {
-    mod_version = '1.20.4-1.0.0' + "." + "${env.GITHUB_RUN_NUMBER}"
+    mod_version = '1.21.1-1.0.0' + "." + "${env.GITHUB_RUN_NUMBER}"
 }
 
 version = mod_version
@@ -19,7 +22,7 @@ group = mod_group_id
 repositories {
     mavenLocal()
     maven {
-        url = uri("https://maven.pkg.github.com/refinedmods/refinedstorage")
+        url = uri("https://maven.pkg.github.com/refinedmods/refinedstorage2")
         /* As of december 2021, GitHub packages requires authentication.
            The password below is a personal access token that has read access to the Refined Mods repos.
            It can be reused in other projects.
@@ -55,31 +58,77 @@ base {
     archivesName = mod_id + "-neoforge"
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
-runs {
-    configureEach {
-        systemProperty 'forge.logging.markers', 'REGISTRIES'
-        systemProperty 'forge.logging.console.level', 'debug'
+neoForge {
+    // Specify the version of NeoForge to use.
+    version = project.neo_version
 
-        modSource project.sourceSets.main
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
     }
 
-    client {
-        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
+    // This line is optional. Access Transformers are automatically detected
+    // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
+
+    // Default run configurations.
+    // These can be tweaked, removed, or duplicated as needed.
+    runs {
+        client {
+            client()
+
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        // This run config launches GameTestServer and runs all registered gametests, then exits.
+        // By default, the server will crash when no gametests are provided.
+        // The gametest system is also enabled by default for other run configs under the /test command.
+        gameTestServer {
+            type = "gameTestServer"
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        data {
+            data()
+
+            // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+            // gameDirectory = project.file('run-data')
+
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+        // applies to all the run configs above
+        configureEach {
+            // Recommended logging data for a userdev environment
+            // The markers can be added/remove as needed separated by commas.
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+
+            // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
     }
 
-    server {
-        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
-        programArgument '--nogui'
-    }
-
-    gameTestServer {
-        systemProperty 'forge.enabledGameTestNamespaces', project.mod_id
-    }
-
-    data {
-        programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+    mods {
+        // define mod <-> source bindings
+        // these are used to tell the game which sources are for which mod
+        // multi mod projects should define one per mod
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
     }
 }
 
@@ -90,14 +139,13 @@ configurations {
 }
 
 dependencies {
-    implementation "net.neoforged:neoforge:${neo_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
-    runtimeOnly "mezz.jei:jei-1.20.6-neoforge:18.0.0.62"
-    compileOnly "com.refinedmods:refinedstorage:1.13.0-beta.4"
-    runtimeOnly "com.refinedmods:refinedstorage:1.13.0-beta.4"
+    runtimeOnly "mezz.jei:jei-1.21.1-neoforge:19.21.0.247"
+    compileOnly "com.refinedmods.refinedstorage:refinedstorage-neoforge:2.0.0-beta.2"
+    runtimeOnly "com.refinedmods.refinedstorage:refinedstorage-neoforge:2.0.0-beta.2"
 }
 
-tasks.withType(ProcessResources).configureEach {
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
     var replaceProperties = [
             minecraft_version      : minecraft_version,
             minecraft_version_range: minecraft_version_range,
@@ -112,12 +160,16 @@ tasks.withType(ProcessResources).configureEach {
             mod_description        : mod_description
     ]
     inputs.properties replaceProperties
-
-    filesMatching(['META-INF/mods.toml']) {
-        expand replaceProperties
-    }
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
 }
 
+// Include the output of "generateModMetadata" as an input directory for the build
+// this works with both building through Gradle and the IDE.
+sourceSets.main.resources.srcDir generateModMetadata
+// To avoid having to run "generateModMetadata" manually, make it run on every project reload
+neoForge.ideSyncTask generateModMetadata
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
@@ -140,7 +192,7 @@ task publishCurseForge(type: net.darkhax.curseforgegradle.TaskPublishCurseForge)
     mainFile.releaseType = 'release'
     mainFile.changelog = 'A changelog can be found at https://github.com/Hexeption/RSInfinityBooster'
     mainFile.changelogType = 'markdown'
-    mainFile.gameVersions = ['1.20.4']
+    mainFile.gameVersions = ['1.21.1']
     mainFile.addModLoader("neoforge")
     mainFile.displayName = "RSInfinityBooster ${version}"
 
@@ -153,9 +205,9 @@ modrinth {
     versionName = "RSInfinityBooster $version"
     changelog = 'A changelog can be found at https://github.com/Hexeption/RSInfinityBooster'
     uploadFile = jar
-    gameVersions = ["1.20.4"]
+    gameVersions = ["1.21.1"]
     loaders = ["neoforge"]
     dependencies {
-        required.version "refined-storage", "1.13.0-beta.4"
+        required.version "refined-storage", "2.0.0-beta.2"
     }
 }

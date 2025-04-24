@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "rsinfinitybooster:infinity_card"
-            ]
+            "items": "rsinfinitybooster:infinity_card"
           }
         ]
       },

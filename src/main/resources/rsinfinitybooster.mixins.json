@@ -4,9 +4,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "rsinfinitybooster.refmap.json",
   "mixins": [
-    "MixinNetworkItemManager",
-    "MixinsWirelessTransmitterNetworkNode",
-    "MixinUpgradeItemValidator"
+    "MixinWirelessTransmitterNetworkNodeContainer"
   ],
   "minVersion": "0.8"
 }

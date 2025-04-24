@@ -1,7 +1,5 @@
 package uk.co.hexeption.rsinfinitybooster.datagen;
 
-import com.refinedmods.refinedstorage.RSItems;
-import com.refinedmods.refinedstorage.item.UpgradeItem;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -23,9 +21,9 @@ import java.util.concurrent.CompletableFuture;
  */
 public class RecipeGenerator extends RecipeProvider {
 
-	public RecipeGenerator(PackOutput pOutput) {
+	public RecipeGenerator(PackOutput output, CompletableFuture<HolderLookup.Provider> registries) {
 
-		super(pOutput);
+		super(output, registries);
 	}
 
 	@Override
@@ -33,18 +31,18 @@ public class RecipeGenerator extends RecipeProvider {
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.INFINITY_CARD.get())
 				.pattern("ERE").pattern("RSR").pattern("NNN")
 				.define('E', Items.ENDER_EYE)
-				.define('R', RSItems.UPGRADE_ITEMS.get(UpgradeItem.Type.RANGE).get())
+				.define('R', com.refinedmods.refinedstorage.common.content.Items.INSTANCE.getRangeUpgrade())
 				.define('S', Items.NETHER_STAR)
 				.define('N', Items.NETHERITE_INGOT)
 				.unlockedBy("has_item", has(Items.NETHERITE_INGOT))
-				.save(pRecipeOutput, new ResourceLocation(RSInfinityBooster.MODID, "infinity_card"));
+				.save(pRecipeOutput, ResourceLocation.fromNamespaceAndPath(RSInfinityBooster.MODID, "infinity_card"));
 		ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.DIMENSION_CARD.get())
 				.pattern("RNR").pattern("NEN").pattern("RNR")
 				.define('R', ModItems.INFINITY_CARD.get())
 				.define('E', Items.ENDER_EYE)
 				.define('N', Items.NETHER_STAR)
 				.unlockedBy("has_item", has(ModItems.INFINITY_CARD.get()))
-				.save(pRecipeOutput, new ResourceLocation(RSInfinityBooster.MODID, "dimension_card"));
+				.save(pRecipeOutput, ResourceLocation.fromNamespaceAndPath(RSInfinityBooster.MODID, "dimension_card"));
 	}
 
 }

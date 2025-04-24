@@ -1,5 +1,5 @@
-// 1.20.4	2024-06-14T11:16:36.245785	Recipes
-aedaf331f91fddd19ae07d655ea549e68211e331 data/rsinfinitybooster/advancements/recipes/misc/dimension_card.json
-764d5d2dca1b802f7b8f7f6aa83c177987aa6ab6 data/rsinfinitybooster/advancements/recipes/misc/infinity_card.json
-16b9bbee8df54b9848cf68b17d549d5b0750fdad data/rsinfinitybooster/recipes/dimension_card.json
-29fa2bfbea8c0e8627669f8d7309de2baacca212 data/rsinfinitybooster/recipes/infinity_card.json
+// 1.21.1	2025-04-24T16:16:50.805163	Recipes
+d7ba28aa2958c19e9076d98b1eb06fa2458b15d7 data/rsinfinitybooster/advancement/recipes/misc/dimension_card.json
+2d57cbb90868d7c7646846e32d63cd8b9293f334 data/rsinfinitybooster/advancement/recipes/misc/infinity_card.json
+08250236fdf7b9a766fe08c71efff28a79ed3ccb data/rsinfinitybooster/recipe/dimension_card.json
+cdec233cc9e6eee5caa9de3533a22093e05bcf2c data/rsinfinitybooster/recipe/infinity_card.json
